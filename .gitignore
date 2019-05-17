@@ -1,0 +1,18 @@
+# IntelliJ
+*.iml
+.idea/
+out/
+
+# C++
+*.exe
+*.out
+
+# Java
+lib/
+
+# vscode
+.vscode/
+
+# CLion
+CMakeLists.txt
+cmake-build-debug/
