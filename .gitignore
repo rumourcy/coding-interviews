@@ -16,3 +16,6 @@ lib/
 # CLion
 CMakeLists.txt
 cmake-build-debug/
+
+# Emacs
+.~
