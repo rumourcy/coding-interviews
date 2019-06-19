@@ -1,28 +1,28 @@
-/*
-  struct TreeNode {
-  int val;
-  struct TreeNode *left;
-  struct TreeNode *right;
-  TreeNode(int x) :
-  val(x), left(NULL), right(NULL) {}
-  };
-*/
 class Solution {
 private:
-  vector<vector<int>> res;
-  vector<int> path;
-public:
-  vector<vector<int>> FindPath(TreeNode* root,int expectNumber) {
-    if (root == NULL) return res;
-    expectNumber -= root->val;
-    path.push_back(root->val);
-    if (expectNumber == 0 && root->left == NULL && root->right == NULL) {
-      vector<int> tmp(path.begin(), path.end());
-      res.push_back(tmp);
+  bool isBST(vector<int> &sequence, int l, int r) {
+    if (l >= r) return true;
+    int m1 = l, m2 = r;
+    for (int i = l; i < r; ++i) {
+      if (sequence[i] < sequence[r])
+        ++m1;
+      else
+        break;
     }
-    if (root->left != NULL) FindPath(root->left, expectNumber);
-    if (root->right != NULL) FindPath(root->right, expectNumber);
-    path.pop_back();
-    return res;
+    for (int i = r - 1; i >= l; --i) {
+      if (sequence[i] > sequence[r])
+        --m2;
+      else
+        break;
+    }
+    if (m1 == m2)
+      return isBST(sequence, l, m1-1) && isBST(sequence, m1, r-1);
+    else
+      return false;
+  }
+public:
+  bool VerifySquenceOfBST(vector<int> sequence) {
+    if (sequence.size() == 0) return false;
+    return isBST(sequence, 0, sequence.size()-1);
   }
 };

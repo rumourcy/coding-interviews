@@ -1,16 +1,21 @@
 class Solution {
 private:
-  stack<int> s;
+    stack<int> s1, s2;
 public:
-  bool IsPopOrder(vector<int> pushV,vector<int> popV) {
-    vector<int>::iterator it = popV.begin();
-    for (vector<int>::iterator i = pushV.begin(); i < pushV.end(); ++i) {
-      s.push(*i);
-      while (!s.empty() && s.top() == *it) {
-        s.pop();
-        ++it;
-      }
+    void push(int value) {
+        s1.push(value);
+        if (s2.empty() || s2.top() >= value)
+            s2.push(value);
     }
-    return s.empty();
-  }
+    void pop() {
+        if (s1.top() == s2.top())
+            s2.pop();
+        s1.pop();
+    }
+    int top() {
+        return s1.top();
+    }
+    int min() {
+        return s2.top();
+    }
 };

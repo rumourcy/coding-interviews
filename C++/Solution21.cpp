@@ -1,28 +1,16 @@
-/*
-  struct TreeNode {
-  int val;
-  struct TreeNode *left;
-  struct TreeNode *right;
-  TreeNode(int x) :
-  val(x), left(NULL), right(NULL) {}
-  };
-*/
 class Solution {
 private:
-  vector<int> res;
-  queue<TreeNode*> q;
+  stack<int> s;
 public:
-  vector<int> PrintFromTopToBottom(TreeNode* root) {
-    if (root == NULL) return res;
-    q.push(root);
-    TreeNode* tmp = NULL;
-    while (!q.empty()) {
-      tmp = q.front();
-      res.push_back(tmp->val);
-      q.pop();
-      if (tmp->left != NULL) q.push(tmp->left);
-      if (tmp->right != NULL) q.push(tmp->right);
+  bool IsPopOrder(vector<int> pushV,vector<int> popV) {
+    vector<int>::iterator it = popV.begin();
+    for (vector<int>::iterator i = pushV.begin(); i < pushV.end(); ++i) {
+      s.push(*i);
+      while (!s.empty() && s.top() == *it) {
+        s.pop();
+        ++it;
+      }
     }
-    return res;
+    return s.empty();
   }
 };

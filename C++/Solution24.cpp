@@ -1,35 +1,28 @@
 /*
-  struct RandomListNode {
-  int label;
-  struct RandomListNode *next, *random;
-  RandomListNode(int x) :
-  label(x), next(NULL), random(NULL) {}
+  struct TreeNode {
+  int val;
+  struct TreeNode *left;
+  struct TreeNode *right;
+  TreeNode(int x) :
+  val(x), left(NULL), right(NULL) {}
   };
 */
 class Solution {
+private:
+  vector<vector<int>> res;
+  vector<int> path;
 public:
-  RandomListNode* Clone(RandomListNode* pHead)
-  {
-    if (pHead == NULL) return NULL;
-    RandomListNode* cur = pHead;
-    while (cur != NULL) {
-      RandomListNode *tmp = new RandomListNode(cur->label);
-      tmp->next = cur->next;
-      cur->next = tmp;
-      cur = tmp->next;
+  vector<vector<int>> FindPath(TreeNode* root,int expectNumber) {
+    if (root == NULL) return res;
+    expectNumber -= root->val;
+    path.push_back(root->val);
+    if (expectNumber == 0 && root->left == NULL && root->right == NULL) {
+      vector<int> tmp(path.begin(), path.end());
+      res.push_back(tmp);
     }
-    cur = pHead;
-    while (cur != NULL) {
-      cur->next->random = (cur->random != NULL) ? cur->random->next : NULL;
-      cur = cur->next->next;
-    }
-    cur = pHead;
-    RandomListNode* clone = pHead->next;
-    while (cur != NULL) {
-      RandomListNode *tmp = cur->next;
-      cur->next = tmp != NULL ? tmp->next : NULL;
-      cur = tmp;
-    }
-    return clone;
+    if (root->left != NULL) FindPath(root->left, expectNumber);
+    if (root->right != NULL) FindPath(root->right, expectNumber);
+    path.pop_back();
+    return res;
   }
 };

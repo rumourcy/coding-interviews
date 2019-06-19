@@ -1,28 +1,28 @@
+/*
+  struct TreeNode {
+  int val;
+  struct TreeNode *left;
+  struct TreeNode *right;
+  TreeNode(int x) :
+  val(x), left(NULL), right(NULL) {}
+  };
+*/
 class Solution {
 private:
-  bool isBST(vector<int> &sequence, int l, int r) {
-    if (l >= r) return true;
-    int m1 = l, m2 = r;
-    for (int i = l; i < r; ++i) {
-      if (sequence[i] < sequence[r])
-        ++m1;
-      else
-        break;
-    }
-    for (int i = r - 1; i >= l; --i) {
-      if (sequence[i] > sequence[r])
-        --m2;
-      else
-        break;
-    }
-    if (m1 == m2)
-      return isBST(sequence, l, m1-1) && isBST(sequence, m1, r-1);
-    else
-      return false;
-  }
+  vector<int> res;
+  queue<TreeNode*> q;
 public:
-  bool VerifySquenceOfBST(vector<int> sequence) {
-    if (sequence.size() == 0) return false;
-    return isBST(sequence, 0, sequence.size()-1);
+  vector<int> PrintFromTopToBottom(TreeNode* root) {
+    if (root == NULL) return res;
+    q.push(root);
+    TreeNode* tmp = NULL;
+    while (!q.empty()) {
+      tmp = q.front();
+      res.push_back(tmp->val);
+      q.pop();
+      if (tmp->left != NULL) q.push(tmp->left);
+      if (tmp->right != NULL) q.push(tmp->right);
+    }
+    return res;
   }
 };
